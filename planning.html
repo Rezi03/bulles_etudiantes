@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Planning — Bulles Étudiantes</title>
+  <meta name="description" content="Planning des émissions Bulles Étudiantes : roulement des chroniqueurs, historique et sessions du mois en cours." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.png?v=6">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon.png?v=6">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111318; --muted:#6b7386; --line:#e8ebf3;
+      --accent:#ec5a83; --accent-2:#7aa7ff; --radius:18px; --shadow:0 20px 60px rgba(18,22,33,.06);
+      --container:max(52vw, 980px);
+    }
+    *{box-sizing:border-box; margin:0; padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -20%, rgba(122,167,255,.18) 0%, rgba(255,255,255,0) 50%),
+        radial-gradient(1000px 500px at 110% 10%, rgba(236,90,131,.15) 0%, rgba(255,255,255,0) 55%),
+        var(--bg);
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    .container{width:min(var(--container), 92vw); margin-inline:auto}
+    a{color:inherit; text-decoration:none}
+
+    /* Header (fixe) */
+    .site-header{position:fixed; inset:0 0 auto 0; z-index:1000; backdrop-filter:saturate(160%) blur(10px); background:rgba(255,255,255,.85); border-bottom:1px solid var(--line)}
+    .header-inner{height:64px; display:flex; align-items:center; justify-content:space-between; gap:24px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .brand img{width:32px}
+    .brand span{white-space:nowrap}
+    .site-nav{display:flex; gap:20px}
+    .site-nav a{padding:8px 10px; border-radius:10px; opacity:.92; transition:background .2s ease, transform .15s ease}
+    .site-nav a:hover{background:rgba(17,19,24,.06); transform:translateY(-1px)}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:999px; border:1px solid rgba(17,19,24,.08); font-weight:600; box-shadow:var(--shadow); background:#fff; cursor:pointer}
+    .btn.primary{color:#fff; border-color:transparent; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+    .btn.small{padding:9px 14px; box-shadow:none}
+    .btn.icon{padding:8px 10px}
+    main{padding-top:84px}
+
+    .section{padding:72px 0; border-top:1px solid var(--line)}
+    .section:first-of-type{border-top:0}
+    .muted{color:var(--muted)}
+    h1{font-size:clamp(1.8rem, 4.8vw, 2.6rem); letter-spacing:-.01em; margin-bottom:8px}
+    h2{font-size:clamp(1.4rem, 3.6vw, 1.9rem); letter-spacing:-.01em; margin-bottom:10px}
+    p{text-align:justify}
+
+    .card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1px solid var(--line)}
+    .pill strong{letter-spacing:.02em}
+
+    table{width:100%; border-collapse:collapse; margin-top:12px; font-size:.98rem}
+    thead th{text-align:left; padding:10px; border-bottom:1px solid var(--line); background:rgba(122,167,255,.06)}
+    tbody td{padding:10px; border-bottom:1px solid var(--line); vertical-align:top}
+    tbody tr:hover{background:rgba(17,19,24,.03)}
+    .tag{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(236,90,131,.08); border:1px solid rgba(236,90,131,.2); font-size:.82rem; margin:2px 4px 2px 0}
+
+    .admin-toggle-wrap{display:flex; justify-content:flex-end; margin-bottom:10px}
+    .admin-drawer{position:fixed; top:64px; right:12px; width:min(92vw, 480px); max-height:calc(100vh - 80px); overflow:auto; background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:16px; display:none; z-index:1100}
+    .tabs{display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap}
+    .tab-btn{padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer}
+    .tab-btn.active{border-color:transparent; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff}
+    .field{display:flex; flex-direction:column; gap:8px; margin:10px 0}
+    .field input, .field select{padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fff; font:inherit}
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+    .person-row{display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed var(--line)}
+    .person-row:last-child{border-bottom:0}
+    .danger{background:#fff0f2; border-color:#ffd2db}
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Retour accueil">
+        <img src="assets/img/logos/logo-bulles-etudiantes.png" alt="" onerror="this.style.display='none'">
+        <span>Bulles Étudiantes</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation">
+        <a href="index.html#emission">L'émission</a>
+        <a href="index.html#asso">Association</a>
+        <a href="index.html#ecole">ICP</a>
+        <a href="index.html#ecouter">Écouter</a>
+        <a href="planning.html" class="btn small">Planning</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Public -->
+    <section class="section">
+      <div class="container">
+        <div class="admin-toggle-wrap">
+          <button id="openAdmin" class="btn">Gérer (interne)</button>
+        </div>
+
+        <h1 id="monthTitle">Planning du mois</h1>
+        <p class="muted" id="yearTitle"></p>
+
+        <div class="card" id="currentMonthPlan" style="margin-top:16px; display:none">
+          <div class="row" style="justify-content:space-between; align-items:center">
+            <h2 style="margin:0">Sessions du mois</h2>
+            <span class="pill"><strong id="sessionsCountPill">0</strong> session(s)</span>
+          </div>
+          <div id="currentTableWrap"></div>
+        </div>
+
+        <p id="noPlanMsg" class="muted" style="margin-top:12px; display:none">Aucun planning généré pour ce mois pour l’instant.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Historique de l’année</h2>
+        <p class="muted">Consultez les plannings déjà validés.</p>
+        <div id="historyWrap" style="margin-top:12px"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ADMIN -->
+  <aside class="admin-drawer" id="adminDrawer" aria-label="Panneau d’administration">
+    <div style="display:flex; justify-content:space-between; align-items:center">
+      <h3>Administration du planning</h3>
+      <button id="closeAdmin" class="btn small">Fermer</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="mois">Mois courant</button>
+      <button class="tab-btn" data-tab="personnes">Personnes</button>
+      <button class="tab-btn" data-tab="seances">Séances</button>
+    </div>
+
+    <!-- Mois -->
+    <div class="tab-panel" id="tab-mois">
+      <div class="field">
+        <label>Nombre de sessions ce mois</label>
+        <input type="number" min="1" max="20" id="sessionCountInput" placeholder="ex. 4" />
+        <p class="muted" id="activeInfo"></p>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="generateBtn">Générer / Régénérer</button>
+        <button class="btn" id="deleteCurrentBtn">Supprimer planning du mois</button>
+      </div>
+      <p class="muted" id="statusLine" style="margin-top:8px"></p>
+    </div>
+
+    <!-- Personnes -->
+    <div class="tab-panel" id="tab-personnes" style="display:none">
+      <p>Gère la liste des personnes. Toute personne listée est <strong>active</strong>.</p>
+      <div class="field">
+        <label>Ajouter une personne</label>
+        <div class="row">
+          <input type="text" id="newFirstName" placeholder="Prénom" />
+          <input type="text" id="newLastName" placeholder="Nom" />
+          <button class="btn" id="addPersonBtn">Ajouter</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Liste actuelle</label>
+        <div id="peopleList" class="muted" style="font-size:.95rem"></div>
+      </div>
+    </div>
+
+    <!-- Séances -->
+    <div class="tab-panel" id="tab-seances" style="display:none">
+      <p>Édite le <strong>nom</strong>, l’<strong>heure</strong> et le <strong>thème</strong> de chaque séance du mois courant.</p>
+      <div id="sessionsEditor"></div>
+    </div>
+
+    <!-- Développeur -->
+    <div class="tab-panel danger" id="tab-dev" style="display:none">
+      <p><strong>Attention :</strong> actions irréversibles.</p>
+      <div class="field">
+        <label>Supprimer un mois par code (YYYY-MM)</label>
+        <div class="row">
+          <input type="text" id="delMonthCode" placeholder="ex. 2025-09" />
+          <button class="btn" id="delMonthBtn">Supprimer</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Réinitialiser les compteurs de participation (année universitaire)</label>
+        <button class="btn" id="resetCountsBtn">Réinitialiser</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    /* ========= Constantes ========= */
+    const PASSWORD = "BullesICP2025";
+    const LS_PREFIX = "be.plan.v5"; // nouveau namespace
+    const now = new Date();
+    const locale = "fr-FR";
+    const monthFmt = new Intl.DateTimeFormat(locale, { month:"long" });
+
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth()+1).padStart(2,"0");
+    const currentMonthKey = `${yyyy}-${mm}`;                // ex: 2025-09
+    const authedKey = `${LS_PREFIX}.auth.${currentMonthKey}`; // mémorise l’auth pour le mois
+
+    function academicYearOf(d){ const y=d.getFullYear(), m=d.getMonth()+1; return (m>=9) ? `${y}-${y+1}` : `${y-1}-${y}`; }
+    const AY = academicYearOf(now);
+
+    /* ========= LocalStorage helpers ========= */
+    const lsGet = (k,d=null)=>{ try{const v=localStorage.getItem(k); return v?JSON.parse(v):d;}catch{return d;} };
+    const lsSet = (k,v)=>localStorage.setItem(k, JSON.stringify(v));
+    const lsDel = (k)=>localStorage.removeItem(k);
+
+    const keyMonth = (mk)=> `${LS_PREFIX}.month.${mk}`;        // {sessions, assignments[], meta[]}
+    const keyYearRoster = (ay)=> `${LS_PREFIX}.roster.${ay}`;  // {names:[{name}]}
+    const keyCounts = (ay)=> `${LS_PREFIX}.counts.${ay}`;      // {name: count}
+
+    /* ========= Roster : tout le monde listé = actif ========= */
+    function ensureRosterForYear(ay){
+      let roster = lsGet(keyYearRoster(ay));
+      if(!roster){
+        const FIRST = ["Lina","Adam","Maya","Elias","Nora","Yanis","Chloé","Ibrahim","Léa","Noah","Inès","Raphaël","Sarah","Hugo","Emma","Jules","Camille","Amir","Zoé","Lucas","Mila","Théo","Aya"];
+        const LAST  = ["Martin","Bernard","Thomas","Petit","Robert","Richard","Durand","Dubois","Moreau","Laurent","Simon","Michel","Lefebvre","Leroy","Roux","David","Bertrand","Morel"];
+        const names = [];
+        for(let i=0;i<23;i++){ names.push({ name: `${FIRST[i%FIRST.length]} ${LAST[i%LAST.length]}` }); }
+        roster = { names };
+        lsSet(keyYearRoster(ay), roster);
+      }
+      return roster;
+    }
+    function activeNamesForMonth(ay, monthKey){
+      const roster = ensureRosterForYear(ay);
+      return roster.names.map(p => p.name);
+    }
+    function addPerson(fullName){
+      const roster = ensureRosterForYear(AY);
+      roster.names.push({ name: fullName });
+      lsSet(keyYearRoster(AY), roster);
+    }
+    function removePerson(fullName){
+      const roster = ensureRosterForYear(AY);
+      const i = roster.names.findIndex(p=>p.name===fullName);
+      if(i>=0){ roster.names.splice(i,1); lsSet(keyYearRoster(AY), roster); return true; }
+      return false;
+    }
+
+    /* ========= Équité : priorité non-participants mois précédent, puis total faible ========= */
+    function prevMonthKey(mk){
+      const [y,m] = mk.split('-').map(Number);
+      const d = new Date(y, m-1, 1);
+      d.setMonth(d.getMonth()-1);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    }
+    function participantsSetOfMonth(mk){
+      const plan = lsGet(keyMonth(mk));
+      if(!plan) return new Set();
+      const s = new Set();
+      plan.assignments.forEach(a=>{ a.main.forEach(n=>s.add(n)); if(a.backup) s.add(a.backup); });
+      return s;
+    }
+    function loadCounts(ay){ return lsGet(keyCounts(ay), {}); }
+    function saveCounts(ay,c){ lsSet(keyCounts(ay), c); }
+
+    function sortedCandidates(cands, lastSet, counts){
+      return cands.map(n=>({
+        n,
+        last: lastSet.has(n) ? 1 : 0,     // 0 = n’a PAS participé le mois dernier => priorité
+        c: counts[n] ?? 0,
+        r: Math.random()
+      })).sort((a,b)=> (a.last - b.last) || (a.c - b.c) || (a.r - b.r));
+    }
+
+    function generatePlanForMonth(mk, sessionCount){
+      const all = activeNamesForMonth(AY, mk);
+      if(all.length < 6) throw new Error("Il faut au moins 6 personnes dans la liste (5 + 1 remplaçant). Ajoute des personnes dans l’onglet Personnes.");
+
+      const counts = loadCounts(AY);
+      const work = {...counts};
+      const lastSet = participantsSetOfMonth(prevMonthKey(mk));
+
+      const assignments = [];
+      const meta = [];
+
+      for(let s=1;s<=sessionCount;s++){
+        const mains = [];
+        const poolMain = sortedCandidates(all, lastSet, work).slice();
+        while(mains.length < 5){
+          const cand = poolMain.shift(); if(!cand) break;
+          if(!mains.includes(cand.n)){ mains.push(cand.n); work[cand.n] = (work[cand.n]??0)+1; }
+        }
+        const poolBack = sortedCandidates(all.filter(n=>!mains.includes(n)), lastSet, work);
+        const backup = (poolBack[0] && poolBack[0].n) ? poolBack[0].n : null;
+
+        assignments.push({session:s, main:mains, backup});
+        meta.push({title:`Séance ${s}`, time:"", theme:""});
+      }
+      return {sessions:sessionCount, assignments, meta, generatedAt:new Date().toISOString()};
+    }
+
+    function saveMonth(mk, plan){
+      lsSet(keyMonth(mk), plan);
+      const counts = loadCounts(AY);
+      plan.assignments.forEach(a => a.main.forEach(n => counts[n] = (counts[n] ?? 0) + 1));
+      saveCounts(AY, counts);
+    }
+
+    /* ========= UI refs ========= */
+    const monthTitle = document.getElementById("monthTitle");
+    const yearTitle  = document.getElementById("yearTitle");
+    const currentCard = document.getElementById("currentMonthPlan");
+    const sessionsCountPill = document.getElementById("sessionsCountPill");
+    const currentTableWrap = document.getElementById("currentTableWrap");
+    const historyWrap = document.getElementById("historyWrap");
+    const noPlanMsg = document.getElementById("noPlanMsg");
+
+    const adminDrawer = document.getElementById("adminDrawer");
+    const openAdmin = document.getElementById("openAdmin");
+    const closeAdmin = document.getElementById("closeAdmin");
+    const tabs = {
+      mois: document.getElementById("tab-mois"),
+      personnes: document.getElementById("tab-personnes"),
+      seances: document.getElementById("tab-seances"),
+      dev: document.getElementById("tab-dev"),
+    };
+    const tabBtnDev = document.getElementById("tabBtnDev");
+
+    const sessionCountInput = document.getElementById("sessionCountInput");
+    const generateBtn = document.getElementById("generateBtn");
+    const deleteCurrentBtn = document.getElementById("deleteCurrentBtn");
+    const statusLine = document.getElementById("statusLine");
+    const activeInfo = document.getElementById("activeInfo");
+
+    const newFirstName = document.getElementById("newFirstName");
+    const newLastName = document.getElementById("newLastName");
+    const peopleList = document.getElementById("peopleList");
+
+    const sessionsEditor = document.getElementById("sessionsEditor");
+
+    const delMonthCode = document.getElementById("delMonthCode");
+    const delMonthBtn = document.getElementById("delMonthBtn");
+    const resetCountsBtn = document.getElementById("resetCountsBtn");
+
+    /* ========= Auth : demandé à l’ouverture de l’admin, puis mémorisé pour le mois ========= */
+    let authedThisMonth = !!lsGet(authedKey, false);
+
+    openAdmin.addEventListener("click", ()=>{
+      if(!authedThisMonth){
+        const pwd = prompt("Mot de passe (interne) :");
+        if(pwd !== PASSWORD){ alert("Mot de passe incorrect."); return; }
+        authedThisMonth = true;
+        lsSet(authedKey, true);
+        tabBtnDev.style.display = "inline-block";
+      }
+      adminDrawer.style.display = "block";
+    });
+    closeAdmin.addEventListener("click", ()=> adminDrawer.style.display = "none");
+
+    // Tabs
+    document.querySelectorAll(".tab-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        Object.values(tabs).forEach(p=>p.style.display="none");
+        const tab = btn.dataset.tab;
+        if(tab==="dev" && !authedThisMonth) return;
+        tabs[tab].style.display="block";
+      });
+    });
+
+    /* ========= Rendu ========= */
+    function formatMonthLabel(d){
+      const m = monthFmt.format(d);
+      return m.charAt(0).toUpperCase()+m.slice(1)+" "+d.getFullYear();
+    }
+
+function renderTable(plan, target){
+  const rows = plan.assignments.map((a,idx)=>{
+    const mains = a.main.map(n=> `<span class="tag">${n}</span>`).join("");
+    const backup = a.backup ? `<span class="tag" style="background:rgba(122,167,255,.1);border-color:rgba(122,167,255,.25)">Remplaçant : ${a.backup}</span>` : "";
+    const meta = plan.meta?.[idx] ?? {title:`Séance ${a.session}`, time:"", theme:""};
+
+    const title = meta.title ? `<strong>${meta.title}</strong>` : `<strong>Séance ${a.session}</strong>`;
+    const theme = meta.theme ? ` — <em>${meta.theme}</em>` : "";
+
+    return `<tr>
+      <td style="width:80px">#${a.session}</td>
+      <td>${mains}</td>
+      <td>${backup}</td>
+      <td style="white-space:nowrap">${meta.time || "—"}</td>
+      <td>${title}${theme}</td>
+    </tr>`;
+  }).join("");
+
+  target.innerHTML = `
+    <table aria-label="Planning du mois">
+      <colgroup>
+        <col style="width:80px">
+        <col>
+        <col style="width:220px">
+        <col style="width:110px">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Session</th>
+          <th>Chroniqueurs (5)</th>
+          <th>Remplaçant (1)</th>
+          <th>Heure</th>
+          <th>Détails</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+
+    function renderCurrentMonth(){
+      ensureRosterForYear(AY);
+      const d = new Date(currentMonthKey+"-01");
+      monthTitle.textContent = "Planning — " + formatMonthLabel(d);
+      yearTitle.textContent = "Année universitaire " + AY;
+
+      const plan = lsGet(keyMonth(currentMonthKey));
+      if(plan){
+        noPlanMsg.style.display = "none";
+        currentCard.style.display = "block";
+        sessionsCountPill.textContent = plan.sessions;
+        renderTable(plan, currentTableWrap);
+      }else{
+        currentCard.style.display = "none";
+        noPlanMsg.style.display = "block";
+      }
+      renderHistory();
+      renderPeopleList();
+      renderSessionsEditor();
+      sessionCountInput.value = plan ? plan.sessions : "";
+      tabBtnDev.style.display = authedThisMonth ? "inline-block" : "none";
+
+      // Info actifs
+      const actives = activeNamesForMonth(AY, currentMonthKey);
+      if(activeInfo) activeInfo.textContent = `Actifs ce mois : ${actives.length}. Minimum requis : 6.`;
+    }
+
+    function renderHistory(){
+      const [startY, endY] = AY.split('-').map(Number);
+      const months = [];
+      for(let i=9;i<=12;i++){ months.push(`${startY}-${String(i).padStart(2,'0')}`); }
+      for(let i=1;i<=8;i++){ months.push(`${endY}-${String(i).padStart(2,'0')}`); }
+      const blocks = months.map(mk=>{
+        const data = lsGet(keyMonth(mk));
+        if(!data) return "";
+        const label = formatMonthLabel(new Date(mk+"-01"));
+        const div = document.createElement("div");
+        renderTable(data, div);
+        return `
+          <details ${mk===currentMonthKey ? "open" : ""}>
+            <summary>${label} — ${data.sessions} session(s)</summary>
+            <div style="margin-top:8px">${div.innerHTML}</div>
+          </details>
+        `;
+      }).join("");
+      historyWrap.innerHTML = blocks || `<p class="muted">Aucun historique encore pour l’année ${AY}.</p>`;
+    }
+
+    function renderPeopleList(){
+      const roster = ensureRosterForYear(AY);
+      const rows = roster.names
+        .map(p=> `
+          <div class="person-row">
+            <div>• ${p.name}</div>
+            <button class="btn small" data-remove="${p.name}">Supprimer</button>
+          </div>
+        `).join("");
+      peopleList.innerHTML = rows || "<em>Aucune personne</em>";
+      peopleList.querySelectorAll('button[data-remove]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+          const who = btn.dataset.remove;
+          if(confirm(`Supprimer ${who} ?`)){
+            if(removePerson(who)){ renderPeopleList(); alert("Personne supprimée."); }
+          }
+        });
+      });
+    }
+
+    function renderSessionsEditor(){
+      const plan = lsGet(keyMonth(currentMonthKey));
+      if(!plan){ sessionsEditor.innerHTML = `<p class="muted">Aucun planning ce mois-ci.</p>`; return; }
+      const html = plan.assignments.map((a, idx)=>{
+        const meta = plan.meta?.[idx] ?? {title:`Séance ${a.session}`, time:"", theme:""};
+        return `
+          <div class="card" style="margin-top:10px">
+            <div class="row" style="justify-content:space-between; align-items:center">
+              <strong>#${a.session}</strong>
+              <span class="pill"><strong>${a.main.length}</strong> + remplaçant</span>
+            </div>
+            <div class="row" style="margin-top:8px">
+              <input type="text" data-meta="title" data-idx="${idx}" placeholder="Nom de la séance" value="${meta.title||""}">
+              <input type="time" data-meta="time" data-idx="${idx}" value="${meta.time||""}" step="60" style="min-width:120px">
+              <input type="text" data-meta="theme" data-idx="${idx}" placeholder="Thème" value="${meta.theme||""}">
+            </div>
+          </div>
+        `;
+      }).join("");
+      sessionsEditor.innerHTML = html;
+      sessionsEditor.querySelectorAll('input[data-meta]').forEach(inp=>{
+        inp.addEventListener('change', ()=>{
+          if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+          const idx = parseInt(inp.dataset.idx,10);
+          const key = inp.dataset.meta;
+          const plan2 = lsGet(keyMonth(currentMonthKey)); if(!plan2) return;
+          if(!plan2.meta) plan2.meta = [];
+          if(!plan2.meta[idx]) plan2.meta[idx] = {title:"", time:"", theme:""};
+          plan2.meta[idx][key] = inp.value;
+          lsSet(keyMonth(currentMonthKey), plan2);
+          statusLine.textContent = "Séance mise à jour.";
+          renderCurrentMonth();
+        });
+      });
+    }
+
+    /* ========= Actions admin ========= */
+    document.getElementById("addPersonBtn").addEventListener("click", ()=>{
+      if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+      const fn = newFirstName.value.trim();
+      const ln = newLastName.value.trim();
+      if(!fn || !ln){ alert("Prénom et nom requis."); return; }
+      addPerson(`${fn} ${ln}`);
+      newFirstName.value = ""; newLastName.value = "";
+      renderPeopleList();
+      alert("Personne ajoutée.");
+    });
+
+    document.getElementById("generateBtn").addEventListener("click", ()=>{
+      if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+      const n = parseInt(sessionCountInput.value,10);
+      if(!n || n<1){ statusLine.textContent = "Indique un nombre de sessions valide."; return; }
+
+      const actives = activeNamesForMonth(AY, currentMonthKey);
+      if (actives.length < 6) {
+        statusLine.textContent = `Il n’y a que ${actives.length} personne(s) dans la liste. Ajoute-en au moins ${6 - actives.length} pour générer.`;
+        if(activeInfo) activeInfo.textContent = `Actifs ce mois : ${actives.length}. Minimum requis : 6.`;
+        return;
+      }
+
+      try{
+        const plan = generatePlanForMonth(currentMonthKey, n);
+        saveMonth(currentMonthKey, plan);
+        statusLine.textContent = "Planning généré et sauvegardé.";
+        renderCurrentMonth();
+      }catch(err){
+        statusLine.textContent = err.message || "Erreur de génération.";
+      }
+    });
+
+    document.getElementById("deleteCurrentBtn").addEventListener("click", ()=>{
+      if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+      if(!confirm("Supprimer le planning du mois courant ?")) return;
+      lsDel(keyMonth(currentMonthKey));
+      statusLine.textContent = "Planning du mois supprimé.";
+      renderCurrentMonth();
+    });
+
+    document.getElementById("delMonthBtn").addEventListener("click", ()=>{
+      if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+      const code = delMonthCode.value.trim();
+      if(!/^\d{4}-\d{2}$/.test(code)){ alert("Code mois invalide (YYYY-MM)."); return; }
+      if(!confirm(`Supprimer le mois ${code} ?`)) return;
+      lsDel(keyMonth(code));
+      if(code===currentMonthKey) sessionCountInput.value="";
+      renderCurrentMonth();
+      alert(`Mois ${code} supprimé.`);
+    });
+
+    document.getElementById("resetCountsBtn").addEventListener("click", ()=>{
+      if(!authedThisMonth){ alert("Ouvre l’onglet Gérer et authentifie-toi."); return; }
+      if(!confirm("Réinitialiser les compteurs de participation pour l'année universitaire ?")) return;
+      lsDel(keyCounts(AY));
+      alert("Compteurs réinitialisés.");
+    });
+
+    /* ========= Init ========= */
+    (function init(){
+      ensureRosterForYear(AY);
+      renderCurrentMonth();
+      if(authedThisMonth) document.getElementById("tabBtnDev").style.display = "inline-block";
+    })();
+  </script>
+  <header class="header">
+  <div class="container">
+    <a href="index.html" class="btn ghost" style="margin:10px 0; display:inline-block;">← Retour au site</a>
+  </div>
+</header>
+
+</body>
+</html>

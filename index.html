@@ -1,67 +1,433 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bulles Étudiantes — l'art de penser à haute voix</title>
-<meta name="description" content="Bulles Étudiantes, l'émission des étudiants de l'ICP diffusée sur RCF. L'art de penser à haute voix." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Open Graph -->
-<meta property="og:title" content="Bulles Étudiantes — l'art de penser à haute voix" />
-<meta property="og:description" content="Bulles Étudiantes, l'émission des étudiants de l'ICP diffusée sur RCF." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://exemple.com" />
-<meta property="og:image" content="assets/img/logos/logo-bulles-etudiantes.png" />
+  <title>Bulles Étudiantes — l'art de penser à haute voix</title>
+  <meta name="description" content="Bulles Étudiantes, l'émission des étudiants de l'ICP diffusée sur RCF. Chroniques, interviews, débats — l'art de penser à haute voix." />
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <!-- Favicon (mets bien le fichier à cet emplacement exact) -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" />
+  <meta name="theme-color" content="#ffffff" />
 
-<!-- Styles -->
-<link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Typo -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
-<!-- Fonts (optionnel, système par défaut) -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============ Variables / thème clair pastel ============ */
+    :root{
+      --bg:#ffffff;
+      --ink:#111318;
+      --muted:#6b7386;
+      --line:#e8ebf3;
+      --accent:#ec5a83;   /* rose doux */
+      --accent-2:#7aa7ff; /* bleu pastel */
+      --radius:18px;
+      --shadow:0 20px 60px rgba(18, 22, 33, .06);
+      --section-pad:96px;
+      --container:max(52vw, 980px);
+    }
+    *{box-sizing:border-box; margin:0; padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -20%, rgba(122,167,255,.18) 0%, rgba(255,255,255,0) 50%),
+        radial-gradient(1000px 500px at 110% 10%, rgba(236,90,131,.15) 0%, rgba(255,255,255,0) 55%),
+        var(--bg);
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
+    .container{width:min(var(--container), 92vw); margin-inline:auto}
+    p, li{ text-align:justify; }
+    .muted{color:var(--muted)}
 
-<script type="application/ld+json">
-{
-"@context": "https://schema.org",
-"@type": "Organization",
-"name": "Bulles Étudiantes",
-"url": "https://exemple.com",
-"slogan": "l'art de penser à haute voix",
-"logo": "assets/img/logos/logo-bulles-etudiantes.png",
-"sameAs": [
-"https://www.rcf.fr/culture/bulles-etudiantes",
-""
-],
-"parentOrganization": {
-"@type": "CollegeOrUniversity",
-"name": "Institut Catholique de Paris (ICP)",
-"url": "https://www.icp.fr/"
+    /* ============ Header (fixe, visible en permanence) ============ */
+    .site-header{
+      position:fixed; inset:0 0 auto 0; z-index:1000;
+      backdrop-filter: saturate(160%) blur(10px);
+      background:rgba(255,255,255,.85);
+      border-bottom:1px solid var(--line);
+    }
+    .header-inner{height:64px; display:flex; align-items:center; justify-content:space-between; gap:24px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px}
+    .brand img{width:36px; height:auto}
+    .brand span{white-space:nowrap}
+
+    .site-nav{display:flex; align-items:center; gap:20px}
+    .site-nav a{padding:8px 10px; border-radius:10px; opacity:.92; transition:background .2s ease, transform .15s ease}
+    .site-nav a:hover{background:rgba(17,19,24,.06); transform:translateY(-1px)}
+    .nav-toggle{display:none; background:none; border:0; padding:10px; cursor:pointer}
+    .nav-toggle .bar{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 18px; border-radius:999px; border:1px solid rgba(17,19,24,.08);
+      font-weight:600; transition:transform .1s ease, box-shadow .2s ease, border-color .2s ease, background .2s;
+      box-shadow:var(--shadow);
+    }
+    .btn.primary{color:#fff; border-color:transparent; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+    .btn.primary:hover{transform:translateY(-1px)}
+    .btn.ghost{background:#fff}
+    .btn.small{padding:9px 14px; box-shadow:none}
+
+    /* page spacing (compense le header fixe) */
+    main{padding-top:80px}
+
+    /* ============ Hero ============ */
+    .hero{padding: clamp(96px, 14vh, 160px) 0 80px}
+    .hero-inner{display:grid; gap:24px}
+    .hero h1{
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      letter-spacing:-.02em; line-height:1.08; margin-bottom:10px;
+    }
+    .lead{font-size:clamp(1.05rem, 1.2vw, 1.2rem)}
+    .cta{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px}
+    .wave{height:14px; width:min(100%, 320px); margin-top:18px; border-radius:999px;
+      background:repeating-linear-gradient(90deg, rgba(17,19,24,.12) 0 10px, transparent 10px 20px);
+    }
+
+    /* ============ Sections / layout ============ */
+    .section{padding:var(--section-pad) 0; border-top:1px solid var(--line)}
+    .section:first-of-type{border-top:0}
+    .section-alt{background:linear-gradient(180deg, rgba(122,167,255,.08), rgba(236,90,131,.08))}
+    .grid-two{display:grid; grid-template-columns: 1.25fr 1fr; gap:48px; align-items:center}
+    h2{font-size: clamp(1.6rem, 3.3vw, 2.4rem); letter-spacing:-.01em; margin-bottom:12px}
+    .paragraph{margin-top:14px}
+    .paragraph + .paragraph{margin-top:12px}
+    ul.points{margin-top:14px; padding-left:18px}
+    ul.points li{margin:8px 0}
+
+    /* ============ Partenaires (mashup ICP + badge RCF) ============ */
+    .partners-mashup{
+      position:relative; display:flex; align-items:center; justify-content:center;
+      min-height:140px;
+    }
+    .partners-mashup .icp{
+      max-height:64px; width:auto; filter: drop-shadow(0 10px 24px rgba(18,22,33,.08));
+    }
+    .partners-mashup .rcf-badge{
+      position:absolute; right:8%; top:50%; transform:translateY(-40%);
+      background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px 14px;
+      display:flex; align-items:center; gap:10px; box-shadow:var(--shadow);
+    }
+    .partners-mashup .rcf-badge img{height:28px; width:auto; display:block}
+    .partners-mashup .rcf-badge .dash{
+      width:1px; height:18px; background:var(--line);
+    }
+    .partners-mashup .rcf-badge .txt{
+      font-weight:600; letter-spacing:.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      white-space:nowrap;
+    }
+
+    /* ============ Player minimal (supprimé le “carré visuel”) ============ */
+    .player-inline{display:block} /* utilisé si besoin pour future extension */
+
+    /* ============ Contact ============ */
+    .contact-form{display:grid; gap:16px; margin-top:10px}
+    .row{display:flex; gap:14px; flex-wrap:wrap}
+    label{display:flex; flex-direction:column; gap:8px; flex:1; min-width:240px}
+    input, textarea{
+      padding:14px 16px; border-radius:14px; border:1px solid var(--line); background:#fff; font:inherit;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    input:focus, textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(236,90,131,.15)}
+
+    /* ============ Footer ============ */
+    .site-footer{border-top:1px solid var(--line); padding:28px 0; background:#fff}
+    .footer-inner{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .footer-inner img{width:28px; opacity:.92}
+
+    /* ============ Reveal (sobre) ============ */
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.visible{opacity:1; transform:none}
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .grid-two{grid-template-columns:1fr; gap:32px}
+      .partners-mashup .rcf-badge{right:12%; transform:translateY(-50%)}
+    }
+    @media (max-width: 760px){
+      .nav-toggle{display:block}
+      .site-nav{
+        position:fixed; right:16px; left:16px; top:72px;
+        background:#fff; border:1px solid var(--line); border-radius:16px;
+        display:flex; flex-direction:column; gap:8px; padding:12px;
+        transform:translateY(-14px); opacity:0; pointer-events:none;
+        transition:opacity .2s ease, transform .2s ease; box-shadow:var(--shadow);
+      }
+      .site-nav.open{opacity:1; transform:none; pointer-events:auto}
+    }
+    /* La grille deux colonnes */
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem; /* espace entre les deux colonnes */
+  align-items: start; /* aligne les colonnes par le haut */
 }
+
+/* Uniformiser les titres et paragraphes */
+#asso h2 {
+  margin-top: 0; /* évite un décalage vertical */
+  margin-bottom: 1rem;
 }
-</script>
+
+#asso .paragraph {
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+  </style>
 </head>
-<body>
-<header class="site-header">
-<div class="container header-inner">
-<a class="brand" href="#" aria-label="Bulles Étudiantes — accueil">
-<img src="assets/img/logos/logo-bulles-etudiantes.png" alt="Logo Bulles Étudiantes" />
-<span>Bulles Étudiantes</span>
-</a>
+<body id="top">
+  <!-- ===== Header (fixe) ===== -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Bulles Étudiantes — accueil">
+        <img src="assets/img/logos/logo-bulles-etudiantes.png" alt="" onerror="this.style.display='none'">
+        <span>Bulles Étudiantes</span>
+      </a>
 
-<button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
-<span class="bar"></span>
-<span class="bar"></span>
-<span class="bar"></span>
-</button>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Ouvrir le menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
 
-<nav id="site-nav" class="site-nav" aria-label="Navigation principale">
-<a href="#emission">L'émission</a>
-<a href="#asso">L'association</a>
-<a href="#ecole">ICP</a>
-<a href="#ecouter">Écouter</a>
-<a href="#contact" class="btn small">Contact</a>
-</nav>
+      <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+        <a href="#emission">L'émission</a>
+        <a href="#asso">Association</a>
+        <a href="#ecole">ICP</a>
+        <a href="#ecouter">Écouter</a>
+        <a href="planning.html">Planning</a>
+        <a href="#contact" class="btn small primary">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1 class="reveal">Bulles Étudiantes</h1>
+        <p class="lead reveal">
+          <strong>L’art de penser à haute voix.</strong>
+          Une émission pensée, écrite et animée par les étudiants de l’<strong>Institut Catholique de Paris</strong>,
+          diffusée sur <strong>RCF</strong>. Des regards, des idées, des voix qui se rencontrent pour éclairer notre époque.
+        </p>
+        <div class="cta reveal">
+          <a class="btn primary" href="https://www.rcf.fr/culture/bulles-etudiantes" target="_blank" rel="noopener">Écouter sur RCF</a>
+          <a id="instaLink" class="btn ghost" href="#" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </section>
+
+<!-- ===== L'ÉMISSION ===== -->
+<section id="emission" class="section section-alt">
+  <div class="container reveal">
+    <h2>
+      Une émission <span style="color:var(--accent)">sobre</span>, 
+      <span style="color:var(--accent)">claire</span> et 
+      <span style="color:var(--accent)">vivante</span>
+    </h2>
+
+    <p class="paragraph">
+      <strong>Bulles Étudiantes</strong> met en avant des chroniques et des entretiens préparés avec exigence :
+      <strong>recherche</strong>, <strong>écriture</strong>, <strong>prise de parole</strong> et <strong>montage</strong>.
+      L’objectif : un son propre, une parole posée, des idées au centre.
+    </p>
+    <p class="paragraph">
+      Chaque numéro propose <strong>plusieurs chroniques</strong>, un <strong>fil rouge</strong> et un 
+      <strong>rythme</strong> qui laisse place au contenu.
+      Transitions soignées, interventions précises, ton accessible.
+    </p>
+
+    <ul class="points">
+      <li><strong>Format radio</strong> : générique, top chrono, voix traitées avec délicatesse.</li>
+      <li><strong>Rédaction étudiante</strong> : préparation, répétition, débrief, progression.</li>
+      <li><strong>Diffusion</strong> : partenariat avec le réseau <strong>RCF</strong>.</li>
+    </ul>
+  </div>
+</section>
+
+
+
+    <!-- ===== ASSOCIATION ===== -->
+    <section id="asso" class="section">
+      <div class="container grid-two">
+        <div class="col reveal">
+          <h2>L’association <span style="color:var(--accent)">Bulles Étudiantes</span></h2>
+
+          <p class="paragraph">
+            <strong>Former à la radio par la pratique.</strong> L’association accompagne les étudiants de l’ICP
+            à chaque étape : <strong>idée</strong>, <strong>structure</strong>, <strong>écriture</strong>,
+            <strong>prise de parole</strong>, <strong>enregistrement</strong> et <strong>post-production</strong>.
+            Le tout, dans un esprit d’exigence bienveillante.
+          </p>
+          <p class="paragraph">
+            <strong>Notre devise</strong> — <em>« l’art de penser à haute voix »</em> — rappelle que la clarté s’apprend.
+            Retours constructifs, progression continue, sobriété de l’habillage : nous privilégions l’essentiel.
+          </p>
+
+          <div class="paragraph" style="display:flex; gap:10px; flex-wrap:wrap">
+            <span class="btn small ghost">Prise de parole</span>
+            <span class="btn small ghost">Écriture radio</span>
+            <span class="btn small ghost">Production</span>
+          </div>
+        </div>
+
+        <div class="col reveal">
+          <h2>Clarté, écoute et rythme pour mieux transmettre</h2>
+          <p class="paragraph">
+            Concevoir, écrire, enregistrer, monter : chaque étape est l’occasion d’acquérir un geste,
+            une méthode, une exigence éditoriale. L’équipe favorise l’entraide et l’autonomie.
+          </p>
+          <p class="paragraph">
+            Ateliers voix et respiration, écriture radio, posture au micro, timing et transitions :
+            tout est pensé pour valoriser la parole et la compréhension.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ICP ===== -->
+    <section id="ecole" class="section section-alt">
+      <div class="container">
+        <h2>Institut Catholique de Paris</h2>
+        <p class="paragraph">
+          <strong>Un cadre d’exigence et d’ouverture.</strong> Au cœur de Paris, l’ICP forme des étudiants curieux,
+          rigoureux et engagés. L’émission prolonge cette culture : débat argumenté, sens de l’écoute, clarté des idées.
+        </p>
+        <p class="paragraph">
+          <strong>Un ancrage académique.</strong> Les chroniques s’appuient sur des sources et des lectures,
+          pour cultiver une parole informée et accessible.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== ÉCOUTER (sans “carré” à droite) ===== -->
+    <section id="ecouter" class="section">
+      <div class="container grid-two">
+        <div class="col reveal">
+          <h2>Dernier épisode</h2>
+          <p class="paragraph muted">
+            Retrouvez le numéro le plus récent de <strong>Bulles Étudiantes</strong> sur la page RCF.
+          </p>
+          <div class="cta">
+            <a id="episode-link" class="btn primary" href="https://www.rcf.fr/culture/bulles-etudiantes" target="_blank" rel="noopener">Voir sur RCF</a>
+            <a id="instaLink2" class="btn ghost" href="#" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+        
+
+        <!-- Rien d’encadré ici : pas de vignette, pas de carré -->
+        <div class="col reveal">
+          <!-- Espace réservé si un jour on intègre un lecteur RCF officiel -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <h2>Écrivez-nous</h2>
+        <p class="paragraph">
+          <strong>Une question, une proposition, une envie de rejoindre l’équipe&nbsp;?</strong>
+          Envoyez-nous un message : nous revenons vers vous rapidement.
+        </p>
+
+        <!-- Remplace l’action par ton endpoint (Formspree, EmailJS, backend) -->
+        <form id="contact-form" class="contact-form" action="https://formspree.io/f/xzzayodb" method="POST">
+          <div class="row">
+            <label>
+              <span>Nom</span>
+              <input name="name" type="text" placeholder="Votre nom" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input name="email" type="email" placeholder="vous@exemple.com" required />
+            </label>
+          </div>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+          </label>
+
+          <div class="cta" style="margin-top:8px">
+            <button class="btn primary" type="submit">Envoyer</button>
+            <p id="form-status" class="muted" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="left" style="display:flex; align-items:center; gap:10px">
+        <img src="assets/img/logos/logo-bulles-etudiantes.png" alt="" onerror="this.style.display='none'">
+        <p>© <span id="year"></span> Bulles Étudiantes — « l'art de penser à haute voix »</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Menu mobile
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('site-nav');
+    if (toggle && nav){
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    }
+
+    // Année footer
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+
+    // Scroll reveal (sobre, sans masquer le header)
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Instagram placeholder (remplace par ton lien)
+    const instaUrl = "";
+    ['instaLink','instaLink2'].forEach(id=>{
+      const a = document.getElementById(id);
+      if(!a) return;
+      if(instaUrl){ a.href = instaUrl; }
+      else{ a.addEventListener('click', (ev)=>{ ev.preventDefault(); alert("Le lien Instagram sera ajouté prochainement."); }); }
+    });
+
+    // Form feedback (Formspree)
+    const form = document.getElementById('contact-form');
+    if (form){
+      const status = document.getElementById('form-status');
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        status.textContent = 'Envoi…';
+        try{
+          const data = new FormData(form);
+          const res = await fetch(form.action, { method:'POST', body:data, headers:{'Accept':'application/json'} });
+          if (res.ok){ status.textContent = 'Merci ! Votre message a bien été envoyé.'; form.reset(); }
+          else { status.textContent = "Échec de l'envoi. Vérifiez la configuration."; }
+        }catch(err){ status.textContent = 'Erreur réseau. Réessayez.'; }
+      });
+    }
+  </script>
+
+</body>
 </html>
