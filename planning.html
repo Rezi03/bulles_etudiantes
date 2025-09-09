@@ -600,49 +600,5 @@ function renderTable(plan, target){
     <a href="index.html" class="btn ghost" style="margin:10px 0; display:inline-block;">← Retour au site</a>
   </div>
 </header>
-
-  <!-- Firebase : Auth + Firestore -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-    // ⚡️ Ta config Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZ_RLzwilXje0GqQBvSwyQx2jTphmEmLE",
-      authDomain: "bulles-etudinates.firebaseapp.com",
-      projectId: "bulles-etudinates",
-      storageBucket: "bulles-etudinates.firebasestorage.app",
-      messagingSenderId: "915578185887",
-      appId: "1:915578185887:web:c2706558db83018ec41aaa",
-      measurementId: "G-D4K6PC9B63"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db   = getFirestore(app);
-
-    console.log("✅ Firebase initialisé :", app.name);
-
-    // Exemple de connexion admin (à remplacer par ton vrai compte partagé)
-    /*
-    const email = "admin@tonsite.fr";
-    const password = "motDePassePartagé";
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => console.log("Connecté comme admin Firebase"))
-      .catch(err => console.error("Erreur connexion :", err));
-    */
-
-    // Exemple : écouter en temps réel un doc Firestore
-    /*
-    onSnapshot(doc(db, "months", "2025-09"), snap => {
-      if (snap.exists()) {
-        console.log("Données Firestore du mois :", snap.data());
-      } else {
-        console.log("Pas encore de données dans Firestore.");
-      }
-    });
-    */
-  </script>
 </body>
 </html>
