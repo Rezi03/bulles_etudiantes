@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact — Bulles Étudiantes</title>
+    <meta name="description" content="Contactez l'équipe de Bulles Étudiantes pour nous rejoindre, poser une question ou proposer une chronique." />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+    <header class="site-header" role="banner">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="Bulles Étudiantes — accueil">
+                <img src="assets/img/logos/logo-bulles-etudiantes.png" alt="Logo Bulles Étudiantes" />
+                <span>Bulles Étudiantes</span>
+            </a>
+            <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+                <a href="index.html#emission">L'émission</a>
+                <a href="index.html#asso">L'équipe</a>
+                <a href="index.html#ecouter">Écouter</a>
+                <a href="planning.html">Planning</a>
+                <a href="contact.html" class="btn small primary">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="contact" class="section">
+            <div class="container">
+                <h1 class="reveal" style="text-align: center; margin-bottom: 24px;">Écrivez-nous</h1>
+                <p class="lead reveal" style="text-align: center; max-width: 650px; margin: 0 auto 48px auto;">
+                    <strong>Une question, une proposition de chronique, une envie de rejoindre l’équipe ?</strong>
+                    Envoyez-nous un message : nous revenons vers vous rapidement.
+                </p>
+
+                <form id="contact-form" class="contact-form" action="https://formspree.io/f/xzzayodb" method="POST">
+                    <div class="row">
+                        <label>
+                            <span>Nom</span>
+                            <input name="name" type="text" placeholder="Votre nom" required />
+                        </label>
+                        <label>
+                            <span>Email</span>
+                            <input name="email" type="email" placeholder="vous@exemple.com" required />
+                        </label>
+                    </div>
+                    <label>
+                        <span>Message</span>
+                        <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+                    </label>
+
+                    <div class="cta" style="margin-top:8px">
+                        <button class="btn primary" type="submit">Envoyer le message</button>
+                        <p id="form-status" class="muted" role="status" aria-live="polite"></p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js" defer></script>
+</body>
+</html>
