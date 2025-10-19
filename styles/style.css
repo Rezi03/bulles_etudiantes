@@ -1,0 +1,88 @@
+/* AJOUTEZ CE CODE À LA FIN DE VOTRE FICHIER styles/style.css */
+
+/* ============ Grille des épisodes ============ */
+.episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+/* ============ Squelette de chargement ============ */
+.episode-placeholder {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+}
+
+@keyframes placeholder-glow {
+    0% { background-color: #e8ebf3; }
+    50% { background-color: #f5f7fc; }
+    100% { background-color: #e8ebf3; }
+}
+
+.placeholder-title { height: 20px; width: 80%; margin-bottom: 10px; border-radius: 8px; animation: placeholder-glow 1.5s ease-in-out infinite; }
+.placeholder-date { height: 14px; width: 40%; margin-bottom: 20px; border-radius: 6px; animation: placeholder-glow 1.5s ease-in-out infinite; }
+.placeholder-player { height: 48px; width: 100%; border-radius: 999px; animation: placeholder-glow 1.5s ease-in-out infinite; }
+
+
+/* ============ Fenêtre Modale (Mentions Légales) ============ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 19, 24, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: none; /* Caché par défaut */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.modal-content p {
+    margin-bottom: 12px;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: 0;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 5px;
+    line-height: 1;
+}

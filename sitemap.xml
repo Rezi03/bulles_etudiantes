@@ -4,4 +4,8 @@
     <loc>https://www.bullesetudiantes.fr/</loc>
     <priority>1.00</priority>
   </url>
+  <url>
+    <loc>https://www.bullesetudiantes.fr/planning.html</loc>
+    <priority>0.80</priority>
+  </url>
 </urlset>
