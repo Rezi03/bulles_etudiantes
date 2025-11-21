@@ -5,72 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Planning — Bulles Étudiantes</title>
     <meta name="description" content="Retrouvez le planning des enregistrements et des diffusions des prochaines émissions de Bulles Étudiantes." />
-    <meta name="robots" content="index, follow" />
-    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-    <link rel="apple-touch-icon" href="assets/img/favicon.png" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <link rel="stylesheet" href="../../styles/style.css" />
 </head>
-<body>
-    <header class="site-header" role="banner">
+<body id="top">
+
+    <header class="site-header">
         <div class="container header-inner">
-            <a class="brand" href="index.html" aria-label="Bulles Étudiantes — accueil">
-                <img src="assets/img/logos/logo-bulles-etudiantes.png" alt="Logo Bulles Étudiantes" />
+            <a class="brand" href="../../index.html">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo" />
                 <span>Bulles Étudiantes</span>
             </a>
-            <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
-                <a href="index.html#emission">L'émission</a>
-                <a href="index.html#asso">L'équipe</a>
-                <a href="index.html#ecouter">Écouter</a>
-                <a href="planning.html">Planning</a>
-                <a href="contact.html" class="btn small primary">Contact</a>
+            
+            <button class="nav-toggle" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+
+            <nav id="site-nav" class="site-nav">
+                <a href="../membres/membres.html">L'équipe</a>
+                <a href="../evenements/evenements.html">Événements</a>
+                <a href="../speciales/speciales.html">Émissions</a>
+                <a href="planning.html" class="active">Planning</a>
+                <a href="../contact/contact.html" class="btn-contact">Contact</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <section class="section">
+        <section class="section hero">
             <div class="container">
-                <h2 class="reveal" style="text-align: center; margin-bottom: 24px;">Sessions à venir</h2>
-                <div class="planning-table-container reveal">
-                    <table class="planning-table">
-                        <thead>
-                            <tr>
-                                <th>Date de diffusion</th>
-                                <th>Animateur/trice</th>
-                                <th>Chroniqueurs/euses</th>
-                                <th>Date d'enregistrement</th>
-                                <th>Remplaçant(e)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="upcoming-sessions-body">
-                            </tbody>
-                    </table>
+                
+                <div style="text-align: center; margin-bottom: 50px;">
+                    <h1 class="hero-title reveal">Le Planning</h1>
+                    <p class="hero-subtitle reveal">Dates de diffusion et d'enregistrement.</p>
                 </div>
 
-                <h2 class="reveal planning-section-title">Sessions closes</h2>
-                <div class="planning-table-container reveal">
-                    <table class="planning-table">
-                        <thead>
-                            <tr>
-                                <th>Date de diffusion</th>
-                                <th>Animateur/trice</th>
-                                <th>Chroniqueurs/euses</th>
-                                <th>Date d'enregistrement</th>
-                                <th>Remplaçant(e)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="past-sessions-body">
-                            </tbody>
-                    </table>
+                <div class="content-frame reveal" style="margin-bottom: 40px;">
+                    <h2 style="text-align: center; margin-bottom: 24px;">Sessions à venir</h2>
+                    
+                    <div class="planning-table-container">
+                        <table class="planning-table">
+                            <thead>
+                                <tr>
+                                    <th>Diffusion</th>
+                                    <th>Animateur/trice</th>
+                                    <th>Chroniqueurs/euses</th>
+                                    <th>Enregistrement</th>
+                                    <th>Remplaçant(e)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcoming-sessions-body">
+                                </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="content-frame reveal">
+                    <h2 style="text-align: center; margin-bottom: 24px; color: var(--muted);">Sessions closes</h2>
+                    
+                    <div class="planning-table-container">
+                        <table class="planning-table">
+                            <thead>
+                                <tr>
+                                    <th>Diffusion</th>
+                                    <th>Animateur/trice</th>
+                                    <th>Chroniqueurs/euses</th>
+                                    <th>Enregistrement</th>
+                                    <th>Remplaçant(e)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="past-sessions-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </section>
         
-        <table id="planning-source-table" class="hidden-source-table">
+        <table id="planning-source-table" class="hidden-source-table" style="display: none;">
             <tbody>
                 <tr>
                     <td>15/10/2025</td>
@@ -175,6 +188,25 @@
 
     </main>
     
-    <script src="js/main.js" defer></script>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="left">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo">
+                <p class="muted">© <span id="year"></span> Bulles Étudiantes</p>
+            </div>
+            <a href="#" id="open-legal" class="muted small">Mentions Légales</a>
+        </div>
+    </footer>
+
+    <div id="legal-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-legal" class="modal-close-btn">&times;</button>
+            <h2>Mentions Légales</h2>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Contact :</strong> [EMAIL]</p>
+        </div>
+    </div>
+
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

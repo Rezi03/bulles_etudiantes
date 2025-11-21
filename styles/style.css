@@ -663,3 +663,56 @@ textarea {
         grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
     }
 }
+
+/* === STYLES DU PLANNING === */
+
+/* Conteneur avec scroll horizontal pour mobile */
+.planning-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Scroll fluide sur iOS */
+    border-radius: 12px; /* Coins du tableau */
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Le Tableau */
+.planning-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Force une largeur min pour ne pas écraser le texte */
+    font-size: 0.95rem;
+}
+
+/* Entêtes */
+.planning-table th {
+    background-color: rgba(214, 112, 49, 0.08); /* Fond orange très pâle */
+    color: var(--accent);
+    font-family: var(--font-subtitle);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+/* Cellules */
+.planning-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    color: var(--ink);
+}
+
+/* Lignes alternées ou hover */
+.planning-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+/* Style spécifique pour le tableau "Sessions closes" */
+#past-sessions-body tr {
+    opacity: 0.6; /* Texte grisé */
+}
+#past-sessions-body tr:hover {
+    opacity: 1; /* Reviens normal au survol */
+    background-color: #f5f5f5;
+}

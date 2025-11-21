@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    /* 1. MENU BURGER */
+    /* --- 1. MENU BURGER MOBILE --- */
     const navToggle = document.querySelector(".nav-toggle");
     const siteNav = document.querySelector(".site-nav");
+
     if (navToggle && siteNav) {
         navToggle.addEventListener("click", () => {
             siteNav.classList.toggle("open");
@@ -16,11 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* 2. FOOTER */
+    /* --- 2. FOOTER --- */
     const yearSpan = document.getElementById("year");
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-    /* 3. MODALE LÉGALE */
+    /* --- 3. MODALE LÉGALE --- */
     const openLegalBtn = document.getElementById("open-legal");
     const legalModal = document.getElementById("legal-modal");
     const closeLegalBtn = document.getElementById("close-legal");
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         legalModal.addEventListener("click", (e) => { if (e.target === legalModal) legalModal.classList.remove("open"); });
     }
 
-    /* 4. REVEAL SCROLL */
+    /* --- 4. REVEAL SCROLL --- */
     const revealElements = document.querySelectorAll(".reveal");
     function revealOnScroll() {
         const windowHeight = window.innerHeight;
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", revealOnScroll);
     revealOnScroll();
 
-    /* 5. POP-UP MEMBRES */
+    /* --- 5. POP-UP MEMBRES --- */
     const memberModal = document.getElementById('member-modal');
     const memberModalClose = document.getElementById('close-member-modal');
     const modalImg = document.getElementById('modal-member-img');
@@ -73,10 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         memberModal.addEventListener('click', (e) => { if (e.target === memberModal) closeMemberModal(); });
     }
 
-    /* ========================================= */
-    /* 6. LECTEUR AUDIO (SANS EMOJI) */
-    /* ========================================= */
-
+    /* --- 6. LECTEUR AUDIO --- */
     const initCustomPlayers = () => {
         document.querySelectorAll('.episode-meta').forEach(episodeCard => {
             const audio = episodeCard.querySelector('audio');
@@ -92,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!audio || !playPauseBtn) return;
 
-            // Formater temps
             const formatTime = (s) => {
                 const m = Math.floor(s / 60);
                 const sec = Math.floor(s % 60);
@@ -109,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelectorAll('audio').forEach(other => { 
                         if(other !== audio) { 
                             other.pause(); 
-                            // Reset visuel des autres
                             const btn = other.parentElement.querySelector('.play-pause-btn');
                             if(btn) {
                                 btn.querySelector('.icon-play').style.display = 'block';
@@ -118,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         } 
                     });
                     audio.play();
-                    iconPlay.style.display = 'none';
-                    iconPause.style.display = 'block';
+                    if(iconPlay) iconPlay.style.display = 'none';
+                    if(iconPause) iconPause.style.display = 'block';
                 } else {
                     audio.pause();
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
+                    if(iconPlay) iconPlay.style.display = 'block';
+                    if(iconPause) iconPause.style.display = 'none';
                 }
             });
 
@@ -145,8 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (audio.duration) {
                         audio.currentTime = (audio.currentTime < 60) ? 60 : audio.currentTime + 30;
                         audio.play();
-                        iconPlay.style.display = 'none';
-                        iconPause.style.display = 'block';
+                        if(iconPlay) iconPlay.style.display = 'none';
+                        if(iconPause) iconPause.style.display = 'block';
                     }
                 });
             }
@@ -160,6 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const RSS_FEED_URL = "https://www.rcf.fr/feed/show/2934";
         const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}`;
         
+        const iconPlay = `<svg class="icon-play" viewBox="0 0 24 24" style="display:block;"><path d="M8 5v14l11-7z"></path></svg>`;
+        const iconPause = `<svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>`;
+
         try {
             const response = await fetch(proxyUrl);
             const data = await response.json();
@@ -182,18 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         <div class="custom-player">
                             <button class="play-pause-btn" aria-label="Lire">
-                                <svg class="icon-play" viewBox="0 0 24 24" style="display:block;"><path d="M8 5v14l11-7z"></path></svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+                                ${iconPlay}${iconPause}
                             </button>
-                            
                             <div class="progress-time-wrapper">
                                 <div class="progress-bar-container"><div class="progress-bar"></div></div>
                                 <span class="time-display">--:-- / --:--</span>
                             </div>
-                            
                             <audio src="${audioUrl}" preload="metadata"></audio>
                         </div>
-                        
                         <button class="skip-ad-btn">Passer la pub</button>
                     </div>
                 `;
@@ -210,4 +205,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (document.getElementById('episodes-list')) loadEpisodes('episodes-list', 4);
     if (document.getElementById('special-episodes-list')) loadEpisodes('special-episodes-list', 6);
+
+
+    /* ========================================= */
+    /* --- 7. GESTION DU PLANNING (AJOUTÉ) --- */
+    /* ========================================= */
+    const sortAndSplitPlanningTable = () => {
+        const sourceTable = document.getElementById('planning-source-table');
+        const upcomingBody = document.getElementById('upcoming-sessions-body');
+        const pastBody = document.getElementById('past-sessions-body');
+
+        // Si on n'est pas sur la page planning, on arrête.
+        if (!sourceTable || !upcomingBody || !pastBody) return;
+
+        const rows = Array.from(sourceTable.querySelectorAll('tbody tr'));
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Pour comparer uniquement la date
+
+        rows.forEach(row => {
+            const dateCell = row.querySelector('td');
+            if (!dateCell) return;
+
+            // Convertit "15/10/2025" en objet Date
+            const dateText = dateCell.textContent.trim();
+            const dateParts = dateText.split('/');
+            // Mois commence à 0 en JS (janvier = 0)
+            const sessionDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+
+            // On clone la ligne pour ne pas détruire la source
+            const newRow = row.cloneNode(true);
+
+            // Comparaison
+            if (sessionDate < today) {
+                pastBody.appendChild(newRow); // C'est passé
+            } else {
+                upcomingBody.appendChild(newRow); // C'est à venir
+            }
+        });
+    };
+
+    // Lancer le tri du planning au chargement
+    sortAndSplitPlanningTable();
 });
