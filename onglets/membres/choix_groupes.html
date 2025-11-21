@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nos Pôles — Bulles Étudiantes</title>
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <link rel="stylesheet" href="../../styles/style.css" />
+</head>
+<body id="top">
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../../index.html">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo" />
+                <span>Bulles Étudiantes</span>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+
+            <nav id="site-nav" class="site-nav">
+                <a href="membres.html" class="active">L'équipe</a>
+                <a href="../evenements/evenements.html">Événements</a>
+                <a href="../speciales/speciales.html">Émissions</a>
+                <a href="../planning/planning.html">Planning</a>
+                <a href="../contact/contact.html" class="btn-contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section hero">
+            <div class="container membres-container reveal">
+                
+                <h1 class="hero-title">Découvrez nos pôles</h1>
+                <p class="hero-subtitle">L'association se divise en deux grands groupes.</p>
+
+                <div class="poles-stack">
+                    
+                    <div class="photo-frame layout-horizontal">
+                        <div class="img-col">
+                            <a href="bureau.html" aria-label="Voir le bureau">
+                                <img src="../../assets/membres/bureau.png" alt="Photo du Bureau" style="aspect-ratio: 1/1; object-fit: cover;" />
+                            </a>
+                        </div>
+
+                        <div class="txt-col">
+                            <h2 style="font-size:2rem; margin-bottom:16px;">Le Bureau</h2>
+                            <p class="description-text" style="margin-top:0;">
+                                La présidence, le secrétariat et la communication. Ils gèrent l'organisation et la vie de l'association.
+                            </p>
+                            <span class="click-hint">(Cliquez sur la photo pour découvrir le bureau)</span>
+                        </div>
+                    </div>
+
+                    <div class="photo-frame layout-vertical">
+                        <div class="img-col">
+                            <a href="chroniqueurs.html" aria-label="Voir les chroniqueurs">
+                                <img src="../../assets/membres/chroniqueurs.png" alt="Photo des Chroniqueurs" />
+                            </a>
+                        </div>
+
+                        <div class="txt-col">
+                            <h2 style="font-size:2rem; margin-bottom:10px;">Les Chroniqueurs</h2>
+                            <p class="description-text" style="margin-top:0;">
+                                Les voix de l'émission. Ils préparent, écrivent et animent les sujets chaque semaine.
+                            </p>
+                            <span class="click-hint">(Cliquez sur la photo pour découvrir les chroniqueurs)</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <a href="membres.html" class="btn primary">← Retour à l'équipe</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo">
+                <p class="muted" style="margin:0;">© <span id="year"></span> Bulles Étudiantes</p>
+            </div>
+            <a href="#" id="open-legal" class="muted small" style="opacity:0.8;">Mentions Légales</a>
+        </div>
+    </footer>
+
+    <div id="legal-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-legal" class="modal-close-btn">&times;</button>
+            <h2>Mentions Légales</h2>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Contact :</strong> [EMAIL]</p>
+        </div>
+    </div>
+
+    <script src="../../js/main.js" defer></script>
+</body>
+</html>

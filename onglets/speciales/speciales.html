@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nos Émissions — Bulles Étudiantes</title>
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <link rel="stylesheet" href="../../styles/style.css" />
+</head>
+<body id="top">
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../../index.html">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo" />
+                <span>Bulles Étudiantes</span>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+
+            <nav id="site-nav" class="site-nav">
+                <a href="../membres/membres.html">L'équipe</a>
+                <a href="../evenements/evenements.html">Événements</a>
+                <a href="speciales.html" class="active">Émissions</a>
+                <a href="../planning/planning.html">Planning</a>
+                <a href="../contact/contact.html" class="btn-contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section hero">
+            <div class="container">
+                <div class="content-frame reveal" style="text-align:center; max-width:900px; margin:0 auto;">
+                    <h1 class="hero-title">Nos Émissions</h1>
+                    <p class="lead">
+                        Retrouvez les replays de <strong>Bulles Étudiantes</strong>. Chroniques, débats, interviews : écoutez ou réécoutez les temps forts de la saison.
+                    </p>
+                    <div style="margin-top: 20px;">
+                        <a href="https://www.rcf.fr/culture/bulles-etudiantes" target="_blank" class="btn primary btn-wrap">
+                            Voir toutes les archives sur RCF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container reveal">
+                <h2 style="text-align:center; margin-bottom:30px; color:var(--accent);">Nos dernières émissions</h2>
+
+                <div id="special-episodes-list" class="episodes-grid">
+                    <div class="episode-placeholder"></div>
+                    <div class="episode-placeholder"></div>
+                    <div class="episode-placeholder"></div>
+                    <div class="episode-placeholder"></div>
+                    <div class="episode-placeholder"></div>
+                    <div class="episode-placeholder"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="left">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo">
+                <p class="muted">© <span id="year"></span> Bulles Étudiantes</p>
+            </div>
+            <a href="#" id="open-legal" class="muted small">Mentions Légales</a>
+        </div>
+    </footer>
+
+    <div id="legal-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-legal" class="modal-close-btn">&times;</button>
+            <h2>Mentions Légales</h2>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Contact :</strong> [EMAIL]</p>
+        </div>
+    </div>
+
+    <script src="../../js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>L'équipe — Bulles Étudiantes</title>
+    <meta name="description" content="Découvrez l'équipe complète de l'association Bulles Étudiantes." />
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    
+    <link rel="stylesheet" href="../../styles/style.css" />
+</head>
+<body id="top">
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../../index.html">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo" />
+                <span>Bulles Étudiantes</span>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+
+            <nav id="site-nav" class="site-nav">
+                <a href="membres.html" class="active">L'équipe</a>
+                <a href="../evenements/evenements.html">Événements</a>
+                <a href="../speciales/speciales.html">Émissions</a>
+                <a href="../planning/planning.html">Planning</a>
+                <a href="../contact/contact.html" class="btn-contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section hero">
+            <div class="container membres-container reveal">
+                
+                <h1 class="hero-title">Notre Équipe</h1>
+                
+                <div class="photo-frame" style="max-width: 900px; width: 100%;">
+                    <a href="choix_groupes.html" aria-label="Voir les pôles" style="width:100%;">
+                        <img src="../../assets/membres/equipe.png" alt="Photo de toute l'équipe Bulles Étudiantes" />
+                    </a>
+                    <p class="description-text">
+                        Équipe de l'association de la radio de l'Institut Catholique de Paris.
+                        <span class="click-hint">(Cliquez sur la photo pour découvrir nos pôles)</span>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo">
+                <p class="muted" style="margin:0;">© <span id="year"></span> Bulles Étudiantes</p>
+            </div>
+            <a href="#" id="open-legal" class="muted small" style="opacity:0.8;">Mentions Légales</a>
+        </div>
+    </footer>
+
+    <div id="legal-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-legal" class="modal-close-btn">&times;</button>
+            <h2>Mentions Légales</h2>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Adresse :</strong> 21 Rue d'Assas, 75006 Paris</p>
+            <p><strong>Contact :</strong> [VOTRE EMAIL]</p>
+        </div>
+    </div>
+
+    <script src="../../js/main.js" defer></script>
+</body>
+</html>

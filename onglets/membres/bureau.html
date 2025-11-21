@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Le Bureau — Bulles Étudiantes</title>
+    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+    <link rel="stylesheet" href="../../styles/style.css" />
+</head>
+<body id="top">
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../../index.html">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo" />
+                <span>Bulles Étudiantes</span>
+            </a>
+            <button class="nav-toggle" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+            <nav id="site-nav" class="site-nav">
+                <a href="membres.html" class="active">L'équipe</a>
+                <a href="../evenements/evenements.html">Événements</a>
+                <a href="../speciales/speciales.html">Émissions</a>
+                <a href="../planning/planning.html">Planning</a>
+                <a href="../contact/contact.html" class="btn-contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section hero">
+            <div class="container membres-container reveal">
+                
+                <h1 class="hero-title">Le Bureau</h1>
+                <p class="hero-subtitle">Le cœur organisateur de l'association.</p>
+
+                <div class="bureau-grid">
+                    
+                    <div class="bureau-col">
+                        <h2 class="bureau-title-top">Pôle Communication</h2>
+                        <div class="photo-frame">
+                            <a href="pole_communication.html" aria-label="Voir le pôle communication" style="width:100%;">
+                                <img src="../../assets/membres/bureau/pole_communication.png" alt="Pôle Communication" />
+                            </a>
+                            <p class="description-text" style="margin-top:10px; font-size:1rem;">
+                                Ils gèrent l'image de l'association, les réseaux sociaux et font rayonner nos émissions.
+                            </p>
+                            <span class="click-hint">(Cliquez sur la photo pour découvrir le pôle communication)</span>
+                        </div>
+                    </div>
+
+                    <div class="bureau-col">
+                        <h2 class="bureau-title-top">Présidence</h2>
+                        
+                        <div class="photo-frame">
+                            <img 
+                                src="../../assets/membres/bureau/mathilde.png" 
+                                alt="Mathilde Aubry" 
+                                class="member-img-trigger" 
+                                data-name="Mathilde Aubry"
+                                data-description="Elle coordonne l'ensemble des pôles, représente l'association et veille au bon déroulement de la saison."
+                                style="cursor: pointer;"
+                            />
+                            
+                            <h3 style="font-size:1.3rem; color:var(--ink); margin-top:10px; margin-bottom:8px;">Mathilde Aubry</h3>
+                            
+                            <p class="description-text" style="margin-top:0; font-size:1rem;">
+                                Elle coordonne l'ensemble des pôles, représente l'association et veille au bon déroulement de la saison.
+                            </p>
+                            
+                        </div>
+                    </div>
+
+                    <div class="bureau-col">
+                        <h2 class="bureau-title-top">Pôle Secrétariat</h2>
+                        <div class="photo-frame">
+                            <a href="pole_secretariat.html" aria-label="Voir le pôle secrétariat" style="width:100%;">
+                                <img src="../../assets/membres/bureau/pole_secretariat.png" alt="Pôle Secrétariat" />
+                            </a>
+                            <p class="description-text" style="margin-top:10px; font-size:1rem;">
+                                Ils assurent le lien administratif, la gestion des plannings et l'organisation interne.
+                            </p>
+                            <span class="click-hint">(Cliquez sur la photo pour découvrir le pôle secrétariat)</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <a href="choix_groupes.html" class="btn primary">← Retour au choix</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="left">
+                <img src="../../assets/img/logos/logo-bulles-etudiantes.png" alt="Logo">
+                <p class="muted">© <span id="year"></span> Bulles Étudiantes</p>
+            </div>
+            <a href="#" id="open-legal" class="muted small">Mentions Légales</a>
+        </div>
+    </footer>
+
+    <div id="member-modal" class="member-modal-overlay">
+        <div class="member-modal-content">
+            <button id="close-member-modal" class="member-modal-close">&times;</button>
+            <img id="modal-member-img" src="" alt="">
+            <h3 id="modal-member-name" class="hero-title" style="font-size:1.8rem; margin-top:0;"></h3>
+            <p id="modal-member-desc" class="paragraph" style="text-align: center;"></p>
+        </div>
+    </div>
+
+    <div id="legal-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-legal" class="modal-close-btn">&times;</button>
+            <h2>Mentions Légales</h2>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Contact :</strong> [EMAIL]</p>
+        </div>
+    </div>
+
+    <script src="../../js/main.js" defer></script>
+</body>
+</html>
