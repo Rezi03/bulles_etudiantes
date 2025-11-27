@@ -300,8 +300,6 @@ main { padding-top: 90px; }
     .split-layout { grid-template-columns: 1fr; }
 }
 
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-.reveal.visible { opacity: 1; transform: none; }
 
 /* POP-UP MODALE MEMBRE */
 .member-modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
