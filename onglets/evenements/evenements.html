@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Événements — Bulles Étudiantes</title>
-    <meta name="description" content="Les événements de l'association Bulles Étudiantes." />
+    <title>Hors Série — Bulles Étudiantes</title>
+    <meta name="description" content="Les émissions spéciales et hors-séries de Bulles Étudiantes." />
     <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
     <link rel="stylesheet" href="../../styles/style.css" />
 </head>
@@ -34,22 +34,45 @@
     <main>
         <section class="section hero">
             <div class="container">
-                
-                <div class="content-frame reveal" style="max-width: 700px; margin: 60px auto; text-align: center; padding: 60px 40px;">
-                    
-                    <h1 class="hero-title" style="margin-bottom: 20px;">Nos Événements</h1>
-                    
-                    <div style="font-size: 4rem; margin-bottom: 20px;">🚧</div>
-                    
-                    <h2 style="color: var(--accent); margin-bottom: 20px;">Arrive bientôt !</h2>
-                    
-                    <p class="paragraph" style="text-align: center; font-size: 1.2rem; color: var(--muted);">
-                        Nous préparons actuellement cette page pour vous présenter les prochains événements de l'association.
-                        <br>Revenez nous voir très vite !
+                <div class="content-frame reveal" style="text-align:center; max-width:900px; margin:0 auto;">
+                    <h1 class="hero-title">Hors Série</h1>
+                    <p class="lead">
+                        Découvrez nos émissions spéciales, nos reportages exclusifs et nos formats originaux enregistrés hors des studios habituels.
                     </p>
+                </div>
+            </div>
+        </section>
 
-                    <div style="margin-top: 40px;">
-                        <a href="../../index.html" class="btn primary">Retour à l'accueil</a>
+        <section class="section">
+            <div class="container reveal">
+                
+                <h2 style="text-align:center; margin-bottom:30px; color:var(--accent);">À l'affiche</h2>
+
+                <div style="max-width: 800px; margin: 0 auto;">
+                    
+                    <div class="episode-meta">
+                        
+                        <h3>Halloween avec Bulles Étudiantes</h3>
+                        <span class="date">Émission Spéciale</span>
+                        
+                        <p class="paragraph" style="margin-bottom: 20px;">
+                            Une émission frissonnante pour célébrer Halloween ! Retrouvez l'équipe pour des chroniques effrayantes et une ambiance mystérieuse.
+                        </p>
+                        
+                        <div class="custom-player">
+                            <button class="play-pause-btn" aria-label="Lire">
+                                <svg class="icon-play" viewBox="0 0 24 24" style="display:block; width:20px; height:20px; fill:currentColor;"><path d="M8 5v14l11-7z"></path></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" style="display:none; width:20px; height:20px; fill:currentColor;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+                            </button>
+                            
+                            <div class="progress-time-wrapper">
+                                <div class="progress-bar-container"><div class="progress-bar"></div></div>
+                                <span class="time-display">--:-- / --:--</span>
+                            </div>
+                            
+                            <audio src="../../assets/audio/halloween_special.mp3" preload="metadata"></audio>
+                        </div>
+                        
                     </div>
 
                 </div>
@@ -72,21 +95,11 @@
         <div class="modal-content">
             <button id="close-legal" class="modal-close-btn">&times;</button>
             <h2>Mentions Légales</h2>
-            
-            <p><strong>Éditeur du site :</strong><br>
-            Rezi Sabahvilli<br>
-            Contact : <a href="mailto:rezisbs2001@icloud.com" style="color: var(--accent);">rezisbs2001@icloud.com</a></p>
-            
-            <p><strong>Association :</strong><br>
-            Bulles Étudiantes (Association de l'Institut Catholique de Paris - ICP)<br>
-            Adresse : 21 Rue d'Assas, 75006 Paris</p>
-
-            <p><strong>Hébergement :</strong><br>
-            GitHub Pages (GitHub Inc.)<br>
-            88 Colin P. Kelly Jr. Street<br>
-            San Francisco, CA 94107, USA</p>
+            <p><strong>Éditeur :</strong> Association Bulles Étudiantes (ICP).</p>
+            <p><strong>Contact :</strong> [EMAIL]</p>
         </div>
     </div>
+
     <script src="../../js/main.js" defer></script>
 </body>
 </html>
