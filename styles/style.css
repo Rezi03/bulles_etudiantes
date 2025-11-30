@@ -304,7 +304,41 @@ main { padding-top: 90px; }
 /* POP-UP MODALE MEMBRE */
 .member-modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
 .member-modal-overlay.open { opacity: 1; visibility: visible; }
-.member-modal-content { background: #fff; padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-soft); max-width: 500px; width: 100%; text-align: center; position: relative; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* === CORRECTION POUR LE SCROLL DU POP-UP === */
+
+.member-modal-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* --- LIGNES A AJOUTER POUR LE SCROLL --- */
+    max-height: 85vh; /* Empêche le pop-up de dépasser 85% de la hauteur de l'écran */
+    overflow-y: auto; /* Active la barre de défilement si le texte est trop long */
+    -webkit-overflow-scrolling: touch; /* Rend le défilement fluide sur iPhone */
+}
+
+/* AJOUT : Optimisation pour gagner de la place sur petit écran */
+@media (max-width: 768px) {
+    .member-modal-content {
+        padding: 25px; /* Réduit les marges internes */
+    }
+    #modal-member-img {
+        width: 130px; /* Réduit légèrement l'image */
+        height: 130px;
+        margin-bottom: 15px;
+    }
+    #modal-member-name {
+        font-size: 1.5rem; /* Réduit un peu le titre */
+        margin-bottom: 10px;
+    }
+}
 .member-modal-overlay.open .member-modal-content { transform: scale(1); }
 
 #modal-member-img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; margin: 0 auto 24px auto; box-shadow: var(--shadow-card); }
@@ -714,3 +748,4 @@ textarea {
     opacity: 1; /* Reviens normal au survol */
     background-color: #f5f5f5;
 }
+
