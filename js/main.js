@@ -56,46 +56,36 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger.addEventListener('click', () => {
                 const imgSrc = trigger.src;
                 const description = trigger.getAttribute('data-description');
-                
-                // Récupération intelligente du nom (Attribut ou HTML)
                 let name = trigger.getAttribute('data-name');
                 if (!name) {
                     const card = trigger.closest('.member-card');
                     if (card) name = card.querySelector('.member-name').textContent;
                 }
-                
                 modalImg.src = imgSrc;
                 modalImg.alt = name || "";
                 modalName.textContent = name || "";
                 modalDesc.textContent = description || "";
-                
                 memberModal.classList.add('open');
-                document.body.style.overflow = 'hidden'; // Bloque le scroll
+                document.body.style.overflow = 'hidden';
             });
         });
-
-        function closeMemberModal() { 
-            memberModal.classList.remove('open'); 
-            document.body.style.overflow = ''; 
-        }
-        
+        function closeMemberModal() { memberModal.classList.remove('open'); document.body.style.overflow = ''; }
         if (memberModalClose) memberModalClose.addEventListener('click', closeMemberModal);
-        
-        memberModal.addEventListener('click', (e) => { 
-            if (e.target === memberModal) closeMemberModal(); 
-        });
-        
-        document.addEventListener('keydown', (e) => { 
-            if (e.key === 'Escape' && memberModal.classList.contains('open')) closeMemberModal(); 
-        });
+        memberModal.addEventListener('click', (e) => { if (e.target === memberModal) closeMemberModal(); });
     }
 
     /* ========================================= */
     /* --- 6. LECTEUR AUDIO & FLUX RSS --- */
     /* ========================================= */
 
+    // Fonction d'activation des lecteurs (Play/Pause, Barre, Temps)
     const initCustomPlayers = () => {
-        document.querySelectorAll('.episode-meta').forEach(episodeCard => {
+        // On cherche TOUS les blocs .episode-meta (ceux du RSS et ceux en dur dans le HTML)
+        const players = document.querySelectorAll('.episode-meta');
+        
+        console.log("Lecteurs trouvés : " + players.length); // Pour vérifier dans la console
+
+        players.forEach(episodeCard => {
             const audio = episodeCard.querySelector('audio');
             const playPauseBtn = episodeCard.querySelector('.play-pause-btn');
             const progressBar = episodeCard.querySelector('.progress-bar');
@@ -103,73 +93,87 @@ document.addEventListener("DOMContentLoaded", () => {
             const timeDisplay = episodeCard.querySelector('.time-display');
             const skipAdBtn = episodeCard.querySelector('.skip-ad-btn');
             
-            // Icônes
             const iconPlay = episodeCard.querySelector('.icon-play');
             const iconPause = episodeCard.querySelector('.icon-pause');
 
+            // Sécurité : si pas d'audio ou pas de bouton, on passe
             if (!audio || !playPauseBtn) return;
 
+            // Formater temps
             const formatTime = (s) => {
                 const m = Math.floor(s / 60);
                 const sec = Math.floor(s % 60);
                 return `${m}:${sec < 10 ? '0' : ''}${sec}`;
             };
 
+            // Quand les métadonnées sont chargées (durée du fichier)
             audio.addEventListener('loadedmetadata', () => {
                 const total = formatTime(audio.duration);
-                timeDisplay.textContent = `0:00 / ${total}`;
+                // Si timeDisplay existe, on met à jour
+                if(timeDisplay) timeDisplay.textContent = `0:00 / ${total}`;
             });
 
+            // Clic bouton Play/Pause
             playPauseBtn.addEventListener('click', () => {
                 if (audio.paused) {
-                    // Arrête les autres
+                    // Arrête tous les autres sons sur la page
                     document.querySelectorAll('audio').forEach(other => { 
                         if(other !== audio) { 
                             other.pause(); 
-                            const btn = other.parentElement.querySelector('.play-pause-btn');
-                            if(btn) {
-                                btn.querySelector('.icon-play').style.display = 'block';
-                                btn.querySelector('.icon-pause').style.display = 'none';
+                            // Reset visuel des autres boutons
+                            const parent = other.closest('.episode-meta');
+                            if(parent) {
+                                const btn = parent.querySelector('.play-pause-btn');
+                                const iPlay = parent.querySelector('.icon-play');
+                                const iPause = parent.querySelector('.icon-pause');
+                                if(iPlay) iPlay.style.display = 'block';
+                                if(iPause) iPause.style.display = 'none';
                             }
                         } 
                     });
+                    
                     audio.play();
-                    iconPlay.style.display = 'none';
-                    iconPause.style.display = 'block';
+                    if(iconPlay) iconPlay.style.display = 'none';
+                    if(iconPause) iconPause.style.display = 'block';
                 } else {
                     audio.pause();
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
+                    if(iconPlay) iconPlay.style.display = 'block';
+                    if(iconPause) iconPause.style.display = 'none';
                 }
             });
 
+            // Mise à jour progression
             audio.addEventListener('timeupdate', () => {
                 if (audio.duration) {
                     const progress = (audio.currentTime / audio.duration) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                    if(progressBar) progressBar.style.width = `${progress}%`;
+                    if(timeDisplay) timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
                 }
             });
 
-            progressBarContainer.addEventListener('click', (e) => {
-                const rect = progressBarContainer.getBoundingClientRect();
-                audio.currentTime = audio.duration * ((e.clientX - rect.left) / rect.width);
-            });
+            // Clic barre de progression
+            if(progressBarContainer) {
+                progressBarContainer.addEventListener('click', (e) => {
+                    const rect = progressBarContainer.getBoundingClientRect();
+                    audio.currentTime = audio.duration * ((e.clientX - rect.left) / rect.width);
+                });
+            }
 
+            // Bouton Passer Pub
             if (skipAdBtn) {
                 skipAdBtn.addEventListener('click', () => {
                     if (audio.duration) {
-                        // Avance de 30s ou va à 1min si au début
                         audio.currentTime = (audio.currentTime < 60) ? 60 : audio.currentTime + 30;
                         audio.play();
-                        iconPlay.style.display = 'none';
-                        iconPause.style.display = 'block';
+                        if(iconPlay) iconPlay.style.display = 'none';
+                        if(iconPause) iconPause.style.display = 'block';
                     }
                 });
             }
         });
     };
 
+    // Chargement dynamique depuis RSS (pour les autres pages)
     const loadEpisodes = async (containerId, limit) => {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -177,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const RSS_FEED_URL = "https://www.rcf.fr/feed/show/2934";
         const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}`;
         
-        // Icônes SVG pour le bouton
         const iconPlay = `<svg class="icon-play" viewBox="0 0 24 24" style="display:block;"><path d="M8 5v14l11-7z"></path></svg>`;
         const iconPause = `<svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>`;
 
@@ -217,6 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }).join('');
 
             container.innerHTML = html;
+            
+            // Une fois le HTML injecté, on initialise les lecteurs dynamiques
             initCustomPlayers();
 
         } catch (error) {
@@ -225,51 +230,44 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // Charge les épisodes RSS si on est sur les pages concernées
     if (document.getElementById('episodes-list')) loadEpisodes('episodes-list', 4);
     if (document.getElementById('special-episodes-list')) loadEpisodes('special-episodes-list', 6);
 
+    // === IMPORTANT : INITIALISATION POUR LES LECTEURS STATIQUES ===
+    // Cette ligne lance l'initialisation immédiatement pour détecter
+    // les lecteurs présents "en dur" dans le HTML (comme sur la page Hors Série)
+    initCustomPlayers();
+
 
     /* ========================================= */
-    /* --- 7. GESTION DU PLANNING (SORT & SPLIT) --- */
+    /* --- 7. GESTION DU PLANNING --- */
     /* ========================================= */
     const sortAndSplitPlanningTable = () => {
         const sourceTable = document.getElementById('planning-source-table');
         const upcomingBody = document.getElementById('upcoming-sessions-body');
         const pastBody = document.getElementById('past-sessions-body');
 
-        // Si on n'est pas sur la page planning, on arrête.
         if (!sourceTable || !upcomingBody || !pastBody) return;
 
         const rows = Array.from(sourceTable.querySelectorAll('tbody tr'));
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Comparaison stricte à la date (sans heure)
+        today.setHours(0, 0, 0, 0);
 
         rows.forEach(row => {
-            // La date est dans la première colonne (Diffusion)
             const dateCell = row.querySelector('td');
             if (!dateCell) return;
-
-            // Format attendu : JJ/MM/AAAA
             const dateText = dateCell.textContent.trim();
             const dateParts = dateText.split('/');
-            
-            // Création de l'objet Date (Mois - 1 car Janvier = 0 en JS)
             const sessionDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
-
-            // Clone la ligne pour ne pas détruire la source
             const newRow = row.cloneNode(true);
 
-            // Logique de tri
             if (sessionDate < today) {
-                // Si la date est passée -> Tableau "Sessions closes"
                 pastBody.appendChild(newRow);
             } else {
-                // Si la date est aujourd'hui ou future -> Tableau "Sessions à venir"
                 upcomingBody.appendChild(newRow);
             }
         });
     };
-
-    // Lancer le tri du planning au chargement
     sortAndSplitPlanningTable();
 });
